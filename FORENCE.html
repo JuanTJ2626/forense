@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expediente 2026-CL-0417 · Estimación de hora de muerte</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Spectral:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --bg: #191b1c;
+            --bg-2: #121314;
+            --paper: #f2ecdc;
+            --paper-2: #e9e1c9;
+            --paper-line: #c9bd9d;
+            --ink: #241f18;
+            --ink-soft: #54493a;
+            --red: #a4291f;
+            --red-dark: #7c1e16;
+            --green: #33543d;
+            --amber: #a9781f;
+            --muted: #8a8272;
+            --paper-shadow: 0 18px 40px -18px rgba(0, 0, 0, .65), 0 2px 0 rgba(255, 255, 255, .04) inset;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background:
+                radial-gradient(ellipse at 20% -10%, #24272a 0%, transparent 55%),
+                radial-gradient(ellipse at 90% 110%, #1e2022 0%, transparent 55%),
+                var(--bg);
+            color: var(--paper);
+            font-family: 'Spectral', serif;
+            min-height: 100vh;
+            padding: 32px 20px 80px;
+        }
+
+        .wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        /* ---------- header / folder tabs ---------- */
+        .tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 0;
+            padding-left: 24px;
+        }
+
+        .tab {
+            background: var(--paper-2);
+            color: var(--ink-soft);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: .06em;
+            padding: 8px 16px 6px;
+            border-radius: 6px 6px 0 0;
+            border: 1px solid var(--paper-line);
+            border-bottom: none;
+            opacity: .55;
+        }
+
+        .tab.active {
+            background: var(--paper);
+            color: var(--ink);
+            opacity: 1;
+            font-weight: 700;
+        }
+
+        .folder {
+            position: relative;
+            background: var(--paper);
+            border-radius: 2px 14px 14px 14px;
+            box-shadow: var(--paper-shadow);
+            padding: 38px clamp(20px, 4vw, 52px) 44px;
+            color: var(--ink);
+        }
+
+        .case-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 24px;
+            border-bottom: 2px solid var(--ink);
+            padding-bottom: 18px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .case-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            letter-spacing: .1em;
+            color: var(--ink-soft);
+            text-transform: uppercase;
+        }
+
+        h1 {
+            font-family: 'Special Elite', monospace;
+            font-weight: 400;
+            font-size: clamp(22px, 3.4vw, 32px);
+            line-height: 1.25;
+            margin: 6px 0 8px;
+            letter-spacing: .01em;
+        }
+
+        .subtitle {
+            font-size: 14.5px;
+            color: var(--ink-soft);
+            max-width: 56ch;
+            font-style: italic;
+        }
+
+        .confidential {
+            font-family: 'Special Elite', monospace;
+            font-size: 13px;
+            color: var(--red);
+            border: 2.5px solid var(--red);
+            padding: 6px 14px;
+            border-radius: 3px;
+            transform: rotate(4deg);
+            letter-spacing: .14em;
+            white-space: nowrap;
+            opacity: .85;
+            flex-shrink: 0;
+        }
+
+        /* ---------- layout ---------- */
+        .grid {
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 26px;
+            align-items: start;
+        }
+
+        @media (max-width:820px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--paper);
+            border: 1px solid var(--paper-line);
+            border-radius: 4px;
+        }
+
+        .index-card {
+            border-left: 3px solid var(--red);
+            background:
+                repeating-linear-gradient(transparent, transparent 27px, var(--paper-line) 28px),
+                var(--paper);
+            padding: 20px 22px 22px;
+        }
+
+        .index-card h2,
+        .graph-card h2,
+        .table-card h2,
+        .verdict h2,
+        .method h2 {
+            font-family: 'Special Elite', monospace;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: .09em;
+            margin: 0 0 16px;
+            color: var(--ink);
+        }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+        .field label {
+            display: block;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            color: var(--ink-soft);
+            margin-bottom: 5px;
+        }
+
+        .field .hint {
+            font-family: 'Spectral', serif;
+            font-style: italic;
+            font-size: 11.5px;
+            color: var(--muted);
+            display: block;
+            margin-top: 3px;
+        }
+
+        input[type=number],
+        input[type=time] {
+            width: 100%;
+            background: #fffdf7;
+            border: 1px solid var(--paper-line);
+            border-radius: 3px;
+            padding: 8px 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--ink);
+        }
+
+        input:focus {
+            outline: 2px solid var(--green);
+            outline-offset: 1px;
+        }
+
+        .calc-btn {
+            width: 100%;
+            margin-top: 8px;
+            background: var(--ink);
+            color: var(--paper);
+            border: none;
+            border-radius: 3px;
+            padding: 12px 14px;
+            font-family: 'Special Elite', monospace;
+            font-size: 14px;
+            letter-spacing: .08em;
+            cursor: pointer;
+            transition: background .15s ease, transform .1s ease;
+        }
+
+        .calc-btn:hover {
+            background: var(--red-dark);
+        }
+
+        .calc-btn:active {
+            transform: scale(.98);
+        }
+
+        .calc-btn:focus-visible {
+            outline: 2px solid var(--green);
+            outline-offset: 2px;
+        }
+
+        /* ---------- graph ---------- */
+        .graph-card {
+            padding: 20px 20px 8px;
+        }
+
+        .legend {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            margin: 0 0 10px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--ink-soft);
+        }
+
+        .legend span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .swatch {
+            width: 14px;
+            height: 3px;
+            display: inline-block;
+            border-radius: 2px;
+        }
+
+        canvas {
+            width: 100%;
+            display: block;
+            background:
+                linear-gradient(var(--paper-line) 1px, transparent 1px) 0 0/100% 12.5%,
+                linear-gradient(90deg, var(--paper-line) 1px, transparent 1px) 0 0/8.3% 100%,
+                #fffdf7;
+            opacity: 0;
+            transition: opacity .35s ease;
+            border: 1px solid var(--paper-line);
+            border-radius: 2px;
+        }
+
+        canvas.ready {
+            opacity: 1;
+        }
+
+        /* ---------- verdict ---------- */
+        .verdict {
+            margin-top: 22px;
+            padding: 22px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 20px;
+            align-items: center;
+        }
+
+        @media (max-width:600px) {
+            .verdict {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .verdict-rows {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .verdict-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            border-bottom: 1px dotted var(--paper-line);
+            padding-bottom: 8px;
+        }
+
+        .verdict-row .label {
+            color: var(--ink-soft);
+        }
+
+        .verdict-row .value {
+            font-weight: 700;
+        }
+
+        .verdict-row.exact .value {
+            color: var(--green);
+        }
+
+        .verdict-row.euler .value {
+            color: var(--amber);
+        }
+
+        .verdict-row.heun .value {
+            color: var(--red);
+        }
+
+        .stamp {
+            width: 150px;
+            height: 150px;
+            border: 4px solid var(--red);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--red);
+            font-family: 'Special Elite', monospace;
+            text-align: center;
+            transform: rotate(-11deg) scale(0);
+            opacity: 0;
+            transition: none;
+            flex-shrink: 0;
+        }
+
+        .stamp.show {
+            animation: stampland .38s cubic-bezier(.3, 1.6, .5, 1) forwards;
+        }
+
+        @keyframes stampland {
+            0% {
+                transform: rotate(-11deg) scale(2.4);
+                opacity: 0;
+            }
+
+            55% {
+                transform: rotate(-11deg) scale(.92);
+                opacity: 1;
+            }
+
+            75% {
+                transform: rotate(-11deg) scale(1.05);
+            }
+
+            100% {
+                transform: rotate(-11deg) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .stamp .top {
+            font-size: 9.5px;
+            letter-spacing: .12em;
+            margin-bottom: 6px;
+        }
+
+        .stamp .time {
+            font-size: 22px;
+            font-weight: 400;
+        }
+
+        .stamp .bottom {
+            font-size: 9px;
+            letter-spacing: .1em;
+            margin-top: 6px;
+        }
+
+        /* ---------- table ---------- */
+        .table-card {
+            margin-top: 22px;
+            padding: 20px;
+        }
+
+        .table-scroll {
+            max-height: 280px;
+            overflow-y: auto;
+            border: 1px solid var(--paper-line);
+            border-radius: 3px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+        }
+
+        thead th {
+            position: sticky;
+            top: 0;
+            background: var(--ink);
+            color: var(--paper);
+            padding: 8px 10px;
+            text-align: right;
+            font-weight: 500;
+            letter-spacing: .03em;
+        }
+
+        thead th:first-child,
+        tbody td:first-child {
+            text-align: left;
+        }
+
+        tbody td {
+            padding: 6px 10px;
+            text-align: right;
+            border-bottom: 1px solid var(--paper-line);
+        }
+
+        tbody tr:nth-child(even) {
+            background: var(--paper-2);
+        }
+
+        /* ---------- methodology ---------- */
+        .method {
+            margin-top: 22px;
+            padding: 22px;
+        }
+
+        .method p {
+            font-size: 14.5px;
+            line-height: 1.65;
+            color: var(--ink-soft);
+            margin: 0 0 12px;
+        }
+
+        .formula {
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--paper-2);
+            border-left: 3px solid var(--ink);
+            padding: 12px 16px;
+            margin: 12px 0 18px;
+            font-size: 13.5px;
+            border-radius: 0 3px 3px 0;
+            overflow-x: auto;
+        }
+
+        .method h3 {
+            font-family: 'Special Elite', monospace;
+            font-size: 12.5px;
+            letter-spacing: .06em;
+            margin: 20px 0 8px;
+            color: var(--ink);
+            text-transform: uppercase;
+        }
+
+        .note {
+            font-size: 12.5px;
+            font-style: italic;
+            color: var(--muted);
+            border-top: 1px dashed var(--paper-line);
+            margin-top: 20px;
+            padding-top: 14px;
+        }
+
+        footer {
+            text-align: center;
+            color: var(--muted);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            letter-spacing: .05em;
+            margin-top: 26px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+
+        <div class="tabs">
+            <div class="tab">DATOS</div>
+            <div class="tab active">ANÁLISIS</div>
+            <div class="tab">METODOLOGÍA</div>
+        </div>
+
+        <div class="folder">
+            <div class="case-header">
+                <div>
+                    <div class="case-id">Expediente N.º 2026-CL-0417 &nbsp;·&nbsp; Medicina legal</div>
+                    <h1>Estimación de la hora de muerte<br>por enfriamiento corporal</h1>
+                    <div class="subtitle">Comparación numérica: método de Euler vs. Euler mejorado (Heun) frente a la
+                        solución exacta de la Ley de Enfriamiento de Newton.</div>
+                </div>
+                <div class="confidential">CONFIDENCIAL</div>
+            </div>
+
+            <div class="grid">
+                <!-- INPUT CARD -->
+                <div class="card index-card">
+                    <h2>Datos del caso</h2>
+
+                    <div class="field">
+                        <label for="tamb">Temperatura ambiente (°C)</label>
+                        <input type="number" id="tamb" value="18" step="0.1">
+                    </div>
+                    <div class="field">
+                        <label for="tm">Temperatura medida del cuerpo (°C)</label>
+                        <input type="number" id="tm" value="29" step="0.1">
+                        <span class="hint">Al momento del hallazgo.</span>
+                    </div>
+                    <div class="field">
+                        <label for="hora">Hora del hallazgo</label>
+                        <input type="time" id="hora" value="22:30">
+                    </div>
+                    <div class="field">
+                        <label for="t0">Temperatura corporal normal (°C)</label>
+                        <input type="number" id="t0" value="37" step="0.1">
+                    </div>
+                    <div class="field">
+                        <label for="k">Constante de enfriamiento k (1/h)</label>
+                        <input type="number" id="k" value="0.15" step="0.01">
+                        <span class="hint">Valor típico educativo: 0.10 – 0.20</span>
+                    </div>
+                    <div class="field">
+                        <label for="h">Paso de integración h (h)</label>
+                        <input type="number" id="h" value="0.5" step="0.05">
+                    </div>
+
+                    <button class="calc-btn" onclick="calcular()">CALCULAR ▸</button>
+                </div>
+
+                <!-- GRAPH CARD -->
+                <div class="card graph-card">
+                    <h2>Curva de enfriamiento T(t)</h2>
+                    <div class="legend">
+                        <span><i class="swatch" style="background:#a9781f"></i>Euler</span>
+                        <span><i class="swatch" style="background:#a4291f"></i>Euler mejorado</span>
+                        <span><i class="swatch" style="background:#33543d"></i>Solución exacta</span>
+                        <span><i class="swatch" style="background:#7c1e16;opacity:.5"></i>Temp. medida</span>
+                    </div>
+                    <canvas id="chart" width="1000" height="420"></canvas>
+                </div>
+            </div>
+
+            <!-- VERDICT -->
+            <div class="card verdict">
+                <div class="verdict-rows" id="verdictRows">
+                    <div class="verdict-row"><span class="label">— sin calcular aún —</span><span class="value"></span>
+                    </div>
+                </div>
+                <div class="stamp" id="stamp">
+                    <div class="top">HORA ESTIMADA</div>
+                    <div class="time" id="stampTime">--:--</div>
+                    <div class="bottom">DE DEFUNCIÓN</div>
+                </div>
+            </div>
+
+            <!-- TABLE -->
+            <div class="card table-card">
+                <h2>Tabla comparativa de resultados</h2>
+                <div class="table-scroll">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>t (h)</th>
+                                <th>Euler (°C)</th>
+                                <th>Euler mej. (°C)</th>
+                                <th>Exacta (°C)</th>
+                                <th>Error Euler</th>
+                                <th>Error E.M.</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+                            <tr>
+                                <td colspan="6" style="text-align:center;color:var(--muted);padding:16px;">Presiona
+                                    “Calcular” para generar la simulación.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- METHODOLOGY -->
+            <div class="card method">
+                <h2>Metodología</h2>
+                <p>El enfriamiento de un cuerpo se modela con la Ley de Enfriamiento de Newton, una ecuación diferencial
+                    de primer orden que relaciona la temperatura T con el tiempo t:</p>
+                <div class="formula">dT/dt = −k · (T − T_amb)</div>
+
+                <h3>Solución exacta</h3>
+                <p>Esta ecuación tiene solución analítica cerrada, usada aquí como referencia para medir el error de los
+                    métodos numéricos:</p>
+                <div class="formula">T(t) = T_amb + (T₀ − T_amb) · e^(−k·t)</div>
+
+                <h3>Método de Euler</h3>
+                <p>Aproxima la curva avanzando en pasos de tamaño h, usando la pendiente evaluada solo al inicio del
+                    intervalo:</p>
+                <div class="formula">T_(n+1) = T_n + h · f(t_n, T_n)</div>
+
+                <h3>Método de Euler mejorado (Heun)</h3>
+                <p>Corrige el resultado promediando la pendiente inicial con una pendiente estimada al final del
+                    intervalo (predictor–corrector), reduciendo el error de truncamiento:</p>
+                <div class="formula">T*_(n+1) = T_n + h · f(t_n, T_n) &nbsp;(predictor)<br>T_(n+1) = T_n + h/2 · [
+                    f(t_n, T_n) + f(t_(n+1), T*_(n+1)) ] &nbsp;(corrector)</div>
+
+                <h3>Estimación de la hora de muerte</h3>
+                <p>Se simula la curva hacia adelante desde T₀ (temperatura corporal normal) y se ubica el instante en
+                    que cada método cruza la temperatura medida T_m. Ese tiempo transcurrido se resta de la hora del
+                    hallazgo. La solución exacta permite calcular el mismo cruce de forma analítica: t = (1/k) · ln[(T₀
+                    − T_amb) / (T_m − T_amb)], y sirve como valor de referencia para comparar el error de cada método
+                    numérico.</p>
+
+                <div class="note">Nota: este es un modelo educativo simplificado (k constante) para comparar métodos
+                    numéricos de resolución de EDOs. La estimación forense real utiliza modelos más completos (p. ej.
+                    nomograma de Henssge) y no debe emplearse como evidencia pericial.</div>
+            </div>
+        </div>
+
+        <footer>PROYECTO FINAL · MÉTODOS NUMÉRICOS · EULER Y EULER MEJORADO APLICADOS A UN CASO FORENSE</footer>
+    </div>
+
+    <script>
+        function f(T, Tamb, k) { return -k * (T - Tamb); }
+
+        function simulateEuler(T0, Tamb, k, h, tEnd) {
+            let t = 0, T = T0, rows = [{ t, T }];
+            while (t < tEnd - 1e-9) {
+                T = T + h * f(T, Tamb, k);
+                t += h;
+                rows.push({ t, T });
+            }
+            return rows;
+        }
+
+        function simulateHeun(T0, Tamb, k, h, tEnd) {
+            let t = 0, T = T0, rows = [{ t, T }];
+            while (t < tEnd - 1e-9) {
+                const f0 = f(T, Tamb, k);
+                const Tpred = T + h * f0;
+                const f1 = f(Tpred, Tamb, k);
+                T = T + (h / 2) * (f0 + f1);
+                t += h;
+                rows.push({ t, T });
+            }
+            return rows;
+        }
+
+        function exactT(t, T0, Tamb, k) {
+            return Tamb + (T0 - Tamb) * Math.exp(-k * t);
+        }
+
+        // linear-interpolated crossing time where the (decreasing) series reaches Tm
+        function findCrossing(rows, Tm) {
+            for (let i = 1; i < rows.length; i++) {
+                const a = rows[i - 1], b = rows[i];
+                if (a.T >= Tm && b.T <= Tm) {
+                    if (b.T === a.T) return a.t;
+                    const frac = (a.T - Tm) / (a.T - b.T);
+                    return a.t + frac * (b.t - a.t);
+                }
+            }
+            return null;
+        }
+
+        function fmtHours(hrs) {
+            if (hrs === null) return "—";
+            const h = Math.floor(hrs);
+            const m = Math.round((hrs - h) * 60);
+            return h + " h " + String(m).padStart(2, '0') + " min";
+        }
+
+        function minutesToClock(baseMinutes) {
+            let mm = ((Math.round(baseMinutes) % 1440) + 1440) % 1440;
+            const h = Math.floor(mm / 60), m = mm % 60;
+            return String(h).padStart(2, '0') + ":" + String(m).padStart(2, '0');
+        }
+
+        function drawChart(euler, heun, exact, Tm, tEnd) {
+            const canvas = document.getElementById('chart');
+            const ctx = canvas.getContext('2d');
+            const W = canvas.width, H = canvas.height;
+            const padL = 55, padR = 20, padT = 20, padB = 40;
+            ctx.clearRect(0, 0, W, H);
+
+            const allT = euler.map(r => r.T).concat(heun.map(r => r.T)).concat(exact.map(r => r.T));
+            let minT = Math.min(...allT, Tm) - 2;
+            let maxT = Math.max(...allT, Tm) + 2;
+
+            const x = t => padL + (t / tEnd) * (W - padL - padR);
+            const y = T => H - padB - ((T - minT) / (maxT - minT)) * (H - padT - padB);
+
+            // axes labels
+            ctx.strokeStyle = '#9c927a';
+            ctx.fillStyle = '#54493a';
+            ctx.font = '11px JetBrains Mono, monospace';
+            ctx.lineWidth = 1;
+
+            const nYTicks = 6;
+            for (let i = 0; i <= nYTicks; i++) {
+                const T = minT + (maxT - minT) * i / nYTicks;
+                const yy = y(T);
+                ctx.fillText(T.toFixed(1) + "°", 6, yy + 4);
+            }
+            const nXTicks = 8;
+            for (let i = 0; i <= nXTicks; i++) {
+                const t = tEnd * i / nXTicks;
+                ctx.fillText(t.toFixed(1) + "h", x(t) - 10, H - padB + 16);
+            }
+
+            // measured temp reference line
+            ctx.setLineDash([5, 4]);
+            ctx.strokeStyle = '#7c1e16';
+            ctx.globalAlpha = .55;
+            ctx.beginPath();
+            ctx.moveTo(x(0), y(Tm));
+            ctx.lineTo(x(tEnd), y(Tm));
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+            ctx.setLineDash([]);
+
+            function drawSeries(rows, color, width) {
+                ctx.strokeStyle = color;
+                ctx.lineWidth = width;
+                ctx.beginPath();
+                rows.forEach((r, i) => {
+                    const px = x(r.t), py = y(r.T);
+                    if (i === 0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+                });
+                ctx.stroke();
+            }
+
+            drawSeries(euler, '#a9781f', 2);
+            drawSeries(heun, '#a4291f', 2);
+            drawSeries(exact, '#33543d', 2.5);
+
+            canvas.classList.add('ready');
+        }
+
+        function calcular() {
+            const Tamb = parseFloat(document.getElementById('tamb').value);
+            const Tm = parseFloat(document.getElementById('tm').value);
+            const T0 = parseFloat(document.getElementById('t0').value);
+            const k = parseFloat(document.getElementById('k').value);
+            const h = parseFloat(document.getElementById('h').value);
+            const horaStr = document.getElementById('hora').value || "22:30";
+
+            if ([Tamb, Tm, T0, k, h].some(isNaN) || k <= 0 || h <= 0 || Tm <= Tamb || Tm >= T0) {
+                alert("Revisa los datos: k y h deben ser positivos, y la temperatura medida debe estar entre la ambiente y la corporal normal.");
+                return;
+            }
+
+            // simulate forward long enough to cross Tm with margin
+            let tEnd = (1 / k) * Math.log((T0 - Tamb) / (Tm - Tamb)) * 1.6 + h * 2;
+            tEnd = Math.max(tEnd, h * 10);
+
+            const euler = simulateEuler(T0, Tamb, k, h, tEnd);
+            const heun = simulateHeun(T0, Tamb, k, h, tEnd);
+            const exact = [];
+            for (let i = 0; i < euler.length; i++) {
+                const t = euler[i].t;
+                exact.push({ t, T: exactT(t, T0, Tamb, k) });
+            }
+
+            drawChart(euler, heun, exact, Tm, tEnd);
+
+            // crossing times
+            const tEulerCross = findCrossing(euler, Tm);
+            const tHeunCross = findCrossing(heun, Tm);
+            const tExactCross = (1 / k) * Math.log((T0 - Tamb) / (Tm - Tamb));
+
+            const [hh, mm] = horaStr.split(':').map(Number);
+            const baseMinutes = hh * 60 + mm;
+
+            const rows = [
+                { cls: 'exact', label: 'Solución exacta', t: tExactCross, ref: tExactCross },
+                { cls: 'euler', label: 'Método de Euler', t: tEulerCross, ref: tExactCross },
+                { cls: 'heun', label: 'Euler mejorado', t: tHeunCross, ref: tExactCross },
+            ];
+
+            const verdictHtml = rows.map(r => {
+                const clock = r.t === null ? '—' : minutesToClock(baseMinutes - r.t * 60);
+                const err = (r.t === null || r.label === 'Solución exacta') ? '' :
+                    ` <span style="color:var(--muted);font-weight:400;">(err ${fmtHours(Math.abs(r.t - r.ref))})</span>`;
+                return `<div class="verdict-row ${r.cls}">
+      <span class="label">${r.label} — Δt ${fmtHours(r.t)}</span>
+      <span class="value">${clock}${err}</span>
+    </div>`;
+            }).join('');
+            document.getElementById('verdictRows').innerHTML = verdictHtml;
+
+            const stamp = document.getElementById('stamp');
+            stamp.classList.remove('show');
+            void stamp.offsetWidth; // restart animation
+            document.getElementById('stampTime').textContent = tExactCross === null ? '--:--' : minutesToClock(baseMinutes - tExactCross * 60);
+            stamp.classList.add('show');
+
+            // table
+            const tbody = document.getElementById('tableBody');
+            let html = '';
+            for (let i = 0; i < euler.length; i++) {
+                const eE = Math.abs(euler[i].T - exact[i].T);
+                const eH = Math.abs(heun[i].T - exact[i].T);
+                html += `<tr>
+      <td>${euler[i].t.toFixed(2)}</td>
+      <td>${euler[i].T.toFixed(3)}</td>
+      <td>${heun[i].T.toFixed(3)}</td>
+      <td>${exact[i].T.toFixed(3)}</td>
+      <td>${eE.toFixed(4)}</td>
+      <td>${eH.toFixed(4)}</td>
+    </tr>`;
+            }
+            tbody.innerHTML = html;
+        }
+
+        window.addEventListener('load', calcular);
+    </script>
+</body>
+
+</html>
