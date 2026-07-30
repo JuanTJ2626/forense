@@ -863,9 +863,10 @@ input {
   margin-bottom: 6px;
 }
 
-.input-field {
+.input-field,
+select.input-field {
   width: 100%;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--bg-bento-solid);
   border: 1px solid var(--border);
   border-radius: var(--rad-sm);
   padding: 10px 14px;
@@ -874,10 +875,22 @@ input {
   font-size: 13px;
   transition: all 0.3s var(--ease);
   outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
 }
 
-[data-theme="light"] .input-field {
-  background: rgba(0, 0, 0, 0.02);
+select.input-field {
+  background-image: linear-gradient(45deg, transparent 50%, var(--text-muted) 50%), linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
+  background-position: calc(100% - 18px) calc(50% - 2px), calc(100% - 12px) calc(50% - 2px);
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+  padding-right: 38px;
+}
+
+[data-theme="light"] .input-field,
+[data-theme="light"] select.input-field {
+  background: #ffffff;
 }
 
 .input-field:focus {
@@ -1149,6 +1162,77 @@ tr:hover td {
   color: var(--text-muted);
   font-size: 13px;
   line-height: 1.6;
+}
+
+/* ═══════════════════════
+   PRINT STYLES
+   ═══════════════════════ */
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  .crime-scene-banner,
+  .forensic-grid-overlay,
+  .noise-overlay,
+  .canvas-container,
+  .top-nav,
+  .landing-hero-section,
+  .science-section,
+  .bento-grid > .item-inputs,
+  .bento-grid > .item-chart,
+  .bento-grid > .item-table,
+  .bento-grid > .item-header,
+  .bento-grid > .item-verdict,
+  .how-to-use-section,
+  .footer-section,
+  .custom-cursor-dot,
+  .custom-cursor-follower {
+    display: none !important;
+  }
+
+  .bento-grid {
+    display: block !important;
+  }
+
+  .print-report {
+    display: block !important;
+    width: 100%;
+    color: black !important;
+  }
+
+  .print-report-card {
+    border: 1px solid #ddd;
+    padding: 14px;
+    margin-bottom: 12px;
+    page-break-inside: avoid;
+    background: white !important;
+  }
+
+  .print-report-card h2,
+  .print-report-card h3 {
+    color: black !important;
+    margin-bottom: 8px;
+  }
+
+  .print-report-card ul {
+    padding-left: 18px;
+  }
+
+  .print-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+  }
+
+  .print-table th,
+  .print-table td {
+    border: 1px solid #ccc;
+    padding: 6px;
+    text-align: left;
+    color: black !important;
+  }
 }
 
 /* ═══════════════════════

@@ -154,6 +154,63 @@ export default function App() {
               <DataTable data={results?.tableData} />
             </div>
 
+            <div className="print-report" style={{ display: 'none' }}>
+              <div className="print-report-card">
+                <h2>DICTAMEN FORENSE · RESULTADOS</h2>
+                <p><strong>Parámetros del caso</strong></p>
+                <ul>
+                  <li>Temperatura ambiente: {values.tamb} °C</li>
+                  <li>Temperatura medida del cadáver: {values.tm} °C</li>
+                  <li>Hora del hallazgo: {values.hora}</li>
+                  <li>Vestimenta / cobertura: {values.ropa || 1.0}</li>
+                  <li>Constante k: {values.k}</li>
+                  <li>Paso de Euler: {values.h}</li>
+                </ul>
+              </div>
+
+              <div className="print-report-card">
+                <h3>Gráfica de enfriamiento</h3>
+                <p>Se incluye la curva generada por el simulador para Euler, Heun y solución exacta.</p>
+              </div>
+
+              <div className="print-report-card">
+                <h3>Resultados del dictamen</h3>
+                {results?.methods?.map((m) => (
+                  <div key={m.id} style={{ marginBottom: '8px' }}>
+                    <strong>{m.label}</strong>: {m.clock} {m.error ? `dif. ${m.error} h` : ''}
+                  </div>
+                ))}
+              </div>
+
+              <div className="print-report-card">
+                <h3>Tabla comparativa</h3>
+                <table className="print-table">
+                  <thead>
+                    <tr>
+                      <th>t (h)</th>
+                      <th>Euler</th>
+                      <th>Euler Mej.</th>
+                      <th>Exacta</th>
+                      <th>Error Euler</th>
+                      <th>Error E. Mej.</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {results?.tableData?.slice(0, 12).map((row, index) => (
+                      <tr key={index}>
+                        <td>{row.t}</td>
+                        <td>{row.euler}</td>
+                        <td>{row.heun}</td>
+                        <td>{row.exacta}</td>
+                        <td>{row.errorEuler}</td>
+                        <td>{row.errorHeun}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
             {/* How To Use */}
             <HowToUse />
           </div>
