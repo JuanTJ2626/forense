@@ -1200,38 +1200,200 @@ tr:hover td {
     display: block !important;
     width: 100%;
     color: black !important;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .print-report-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 2px solid #111;
+    padding-bottom: 10px;
+    margin-bottom: 12px;
+  }
+
+  .print-report-kicker {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 4px;
+  }
+
+  .print-report-header h2 {
+    font-size: 18px;
+    font-weight: 800;
+    color: #111 !important;
+    margin: 0;
+  }
+
+  .print-report-header p {
+    font-size: 11px;
+    color: #444;
+    margin-top: 4px;
+  }
+
+  .print-report-badge {
+    border: 1px solid #111;
+    padding: 6px 10px;
+    font-weight: 700;
+    letter-spacing: 0.16em;
+    font-size: 10px;
+  }
+
+  .print-report-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 12px;
+    margin-bottom: 12px;
   }
 
   .print-report-card {
-    border: 1px solid #ddd;
-    padding: 14px;
-    margin-bottom: 12px;
+    border: 1px solid #d0d0d0;
+    padding: 12px;
+    margin-bottom: 10px;
     page-break-inside: avoid;
     background: white !important;
+    box-shadow: none;
   }
 
-  .print-report-card h2,
-  .print-report-card h3 {
-    color: black !important;
+  .print-card-title {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #111 !important;
     margin-bottom: 8px;
   }
 
-  .print-report-card ul {
-    padding-left: 18px;
+  .print-param-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .print-param-item {
+    border: 1px solid #e5e5e5;
+    padding: 8px;
+    background: #fafafa;
+  }
+
+  .print-param-item span {
+    display: block;
+    font-size: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #666;
+    margin-bottom: 4px;
+  }
+
+  .print-param-item strong {
+    font-size: 10px;
+    color: #111;
+  }
+
+  .print-method-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .print-method-item {
+    border-left: 3px solid #111;
+    padding-left: 8px;
+  }
+
+  .print-method-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: #111;
+  }
+
+  .print-method-value {
+    font-size: 10px;
+    color: #444;
+  }
+
+  .print-trend-box {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 110px;
+    padding-top: 8px;
+  }
+
+  .print-trend-bar-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .print-trend-bar {
+    width: 100%;
+    height: 80px;
+    border: 1px solid #ddd;
+    display: flex;
+    align-items: flex-end;
+    background: #fafafa;
+  }
+
+  .print-trend-bar span {
+    display: block;
+    width: 100%;
+    background: linear-gradient(180deg, #ef4444, #111);
+  }
+
+  .print-trend-box small {
+    font-size: 8px;
+    color: #666;
+  }
+
+  .print-trend-caption {
+    font-size: 9px;
+    color: #555;
+    margin-top: 8px;
   }
 
   .print-table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 10px;
+    font-size: 9px;
   }
 
   .print-table th,
   .print-table td {
     border: 1px solid #ccc;
-    padding: 6px;
+    padding: 5px;
     text-align: left;
     color: black !important;
+  }
+
+  .print-table th {
+    background: #f4f4f4;
+    font-weight: 700;
+  }
+
+  .print-report-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
+    padding-top: 10px;
+    border-top: 1px solid #ddd;
+  }
+
+  .print-footer-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #666;
+    margin-bottom: 6px;
+  }
+
+  .print-footer-line {
+    font-size: 11px;
+    color: #111;
   }
 }
 

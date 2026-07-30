@@ -30,6 +30,14 @@ export default function App() {
 
   const [results, setResults] = useState(null)
 
+  const clothingLabel = (() => {
+    const factor = Number(values.ropa ?? 1.0)
+    if (factor >= 2.0) return 'Cobertura intensa / inmersión'
+    if (factor >= 1.3) return 'Ropa pesada / abrigo'
+    if (factor >= 0.9) return 'Vestimenta ligera / normal'
+    return 'Desnudo / aire quieto'
+  })()
+
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
   }, [theme])
@@ -155,35 +163,44 @@ export default function App() {
             </div>
 
             <div className="print-report" style={{ display: 'none' }}>
-              <div className="print-report-card">
-                <h2>DICTAMEN FORENSE · RESULTADOS</h2>
-                <p><strong>Parámetros del caso</strong></p>
-                <ul>
-                  <li>Temperatura ambiente: {values.tamb} °C</li>
-                  <li>Temperatura medida del cadáver: {values.tm} °C</li>
-                  <li>Hora del hallazgo: {values.hora}</li>
-                  <li>Vestimenta / cobertura: {values.ropa || 1.0}</li>
-                  <li>Constante k: {values.k}</li>
-                  <li>Paso de Euler: {values.h}</li>
-                </ul>
+              <div className="print-report-header">
+                <div>
+                  <div className="print-report-kicker">EXPEDIENTE PERICIAL · FORENSE</div>
+                  <h2>Dictamen forense · Simulación de enfriamiento cadavérico</h2>
+                  <p>Comparación numérica de Euler, Euler mejorado y solución exacta.</p>
+                </div>
+                <div className="print-report-badge">FORENSE</div>
               </div>
 
-              <div className="print-report-card">
-                <h3>Gráfica de enfriamiento</h3>
-                <p>Se incluye la curva generada por el simulador para Euler, Heun y solución exacta.</p>
-              </div>
-
-              <div className="print-report-card">
-                <h3>Resultados del dictamen</h3>
-                {results?.methods?.map((m) => (
-                  <div key={m.id} style={{ marginBottom: '8px' }}>
-                    <strong>{m.label}</strong>: {m.clock} {m.error ? `dif. ${m.error} h` : ''}
+              <div className="print-report-grid">
+                <div className="print-report-card">
+                  <div className="print-card-title">Parámetros del caso</div>
+                  <div className="print-param-grid">
+                    <div className="print-param-item"><span>Temperatura ambiente</span><strong>{values.tamb} °C</strong></div>
+                    <div className="print-param-item"><span>Temperatura medida</span><strong>{values.tm} °C</strong></div>
+                    <div className="print-param-item"><span>Hora del hallazgo</span><strong>{values.hora}</strong></div>
+                    <div className="print-param-item"><span>Vestimenta / cobertura</span><strong>{clothingLabel}</strong></div>
+                    <div className="print-param-item"><span>Constante k</span><strong>{values.k}</strong></div>
+                    <div className="print-param-item"><span>Paso de Euler</span><strong>{values.h}</strong></div>
                   </div>
-                ))}
+                </div>
+
+                <div className="print-report-card">
+                  <div className="print-card-title">Resumen del dictamen</div>
+                  <div className="print-method-list">
+                    {results?.methods?.map((m) => (
+                      <div key={m.id} className="print-method-item">
+                        <div className="print-method-title">{m.label}</div>
+                        <div className="print-method-value">{m.clock} {m.error ? `· diferencia ${m.error} h` : ''}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
 
+
               <div className="print-report-card">
-                <h3>Tabla comparativa</h3>
+                <div className="print-card-title">Tabla comparativa</div>
                 <table className="print-table">
                   <thead>
                     <tr>
@@ -208,6 +225,17 @@ export default function App() {
                     ))}
                   </tbody>
                 </table>
+              </div>
+
+              <div className="print-report-footer">
+                <div>
+                  <div className="print-footer-label">Perito responsable</div>
+                  <div className="print-footer-line">________________________________</div>
+                </div>
+                <div>
+                  <div className="print-footer-label">Fecha</div>
+                  <div className="print-footer-line">______________</div>
+                </div>
               </div>
             </div>
 

@@ -31,6 +31,10 @@ export default function InputCard({ values, onChange, onCalculate }) {
         <span style={{ fontSize: '9px', opacity: 0.5 }}>[ EULER · EDO ]</span>
       </div>
 
+      <p style={{ fontSize: '12px', color: 'var(--text-muted)', lineHeight: 1.5, marginBottom: '12px' }}>
+        Completa los datos que conozcas del caso. La herramienta usa estos valores para estimar una hora aproximada de fallecimiento.
+      </p>
+
       <div className="input-group">
         <label htmlFor="tamb">Temperatura ambiente (°C)</label>
         <input
